@@ -4,3 +4,5 @@ cscope.out
 queens
 scratch.c
 a.out
+*.swp
+*.swo
