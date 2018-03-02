@@ -27,42 +27,6 @@ Board *qB_new(Board *qb, int len)
 	return qb;
 }
 
-//int _check_new_queen(Board *qb, int x, int y)
-//{
-//	int i, j, len = qb->len;
-//	char *board;
-//	board = qb->board;
-//
-//	for (i = 0; i < len; i++) {
-//
-//		/* Rows and columns */
-//		if (i == y)
-//			for (j = 0; j < len; j++)
-//				if (*(board+j+(i*len)+(len * len)) == 'Q')
-//					return -1;
-//		if (i == x)
-//			for (j = 0; j < len; j++)
-//				if (*(board+i+(j*len)+(len * len)) == 'Q')
-//					return -1;
-//
-//		/* Diagonals */
-//		if (i <= x && i <= y)
-//			if (*(board + (x - i) + ((y - i) * len) + (len * len)) == 'Q')
-//				return -1;
-//		if (i <= (len - x) && i <= y)
-//			if (*(board + (x + i) + ((y - i) * len) + (len * len)) == 'Q')
-//				return -1;
-//		if (i < x && i < (len - y))
-//			if (*(board + (x - i) + ((y + i) * len) + (len * len)) == 'Q')
-//				return -1;
-//		if (i < (len - x) && i < (len - y))
-//			if (*(board + (x + i) + ((y + i) * len) + (len * len)) == 'Q')
-//				return -1;
-//	}
-//
-//	return 0;
-//}
-
 void _set_queen(Board *qb, int x, int y)
 {
 	int i, j, len = qb->len;
@@ -101,8 +65,6 @@ int qB_validate(Board *qb, int x, int y)
 
 	if (*(board+x+(y * len)+(len * len)) == '-')
 		return -1;
-//	if (_check_new_queen(qb, x, y))
-//		return -1;
 	return 0;
 }
 
