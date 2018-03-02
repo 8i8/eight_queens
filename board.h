@@ -7,7 +7,7 @@ typedef struct Board {
 
 Board *qB_new(Board *qb, int len);
 
-int qB_place_queen(Board *qb, int x, int y);
+int qB_place_queen(Board *qb, int x, int y, int validate);
 
 void qB_print(Board *qb);
 

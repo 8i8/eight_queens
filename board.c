@@ -3,8 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-void _clear_board(Board *qb)
+int _clear_board(Board *qb)
 {
+	if (qb == NULL)
+		return -1;
+
 	int i, j, k, len = qb->len;
 	char *board;
 	board = qb->board;
@@ -13,11 +16,16 @@ void _clear_board(Board *qb)
 		for (j = 0; j < len; j++)
 			for(k = 0; k < 2; k++)
 				*(board+i+(j*len)+(k*len*len)) = '+';
+	return 0;
 }
 
 Board *qB_new(Board *qb, int len)
 {
 	qb = malloc(sizeof(Board));
+
+	if (qb == NULL)
+		return NULL;
+
 	qb->len = len;
 	qb->total_len = len * len * 2;
 	qb->board = malloc(2 * len * len);
@@ -27,7 +35,7 @@ Board *qB_new(Board *qb, int len)
 	return qb;
 }
 
-void _set_queen(Board *qb, int x, int y)
+int _set_queen(Board *qb, int x, int y)
 {
 	int i, j, len = qb->len;
 	char *board;
@@ -55,29 +63,39 @@ void _set_queen(Board *qb, int x, int y)
 		if (i < (len - x) && i < (len - y))
 			*(board + (x + i) + ((y + i) * len) + (len * len)) = '-';
 	}
+
+	return 0;
 }
 
 int qB_validate(Board *qb, int x, int y)
 {
 	int len = qb->len;
-	char *board;
-	board = qb->board;
 
-	if (*(board+x+(y * len)+(len * len)) == '-')
+	if (*(qb->board+x+(y * len)+(len * len)) == '-')
 		return -1;
+
 	return 0;
 }
 
-int qB_place_queen(Board *qb, int x, int y)
+/*
+ * qB_place_queen: Add a new queen to the board after a validation of the
+ * square, the validation can be overidden for the case in which a verification
+ * has already been made.
+ */
+int qB_place_queen(Board *qb, int x, int y, int validate)
 {
-	if (qB_validate(qb, x, y))
+	if (validate && qB_validate(qb, x, y))
 		return -1;
 
-	_set_queen(qb, x, y);
+	if (_set_queen(qb, x, y))
+		return -1;
 
 	return 0;
 }
 
+/*
+ * qB_print: Print out the board with the queens positions.
+ */
 void qB_print(Board *qb)
 {
 	int i, len = qb->len;
@@ -96,6 +114,12 @@ void qB_print(Board *qb)
 	printf("%s", buffer);
 }
 
+/*
+ * qB_print_disponibility: Print out the state of the board, the avaliablilty
+ * of squares, this is the underlying matrig of the queens sight; For fast
+ * avalibilty check a 3rd dimention has been used to store '-' in squares that
+ * are covered by a queens sight.
+ */
 void qB_print_disponibility(Board *qb)
 {
 	int i, len = qb->len;
