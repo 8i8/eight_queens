@@ -8,8 +8,8 @@ int main(void)
 	Board *qb = NULL;
 	qb = qB_new(qb, LEN);
 
-	//if (qB_place_queen(qb, 0, 0))
-	//	printf("failed to place queen\n");
+	if (qB_place_queen(qb, 0, 0))
+		printf("failed to place queen\n");
 	if (qB_place_queen(qb, 2, 4))
 		printf("failed to place queen\n");
 
