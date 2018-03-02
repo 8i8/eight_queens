@@ -4,7 +4,7 @@ OBJ = $(SRC:.c=.o)
 CC = gcc
 CFLAGS = -g
 CFLAGS += -Wall -Wextra -pedantic
-#CFLAG += -fsanitize=address -fno-omit-frame-pointer
+CFLAG += -fsanitize=address -fno-omit-frame-pointer
 
 .PHONY: all clean distclean
 

@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+ * _clear_board: set all squares to the came value.
+ */
 int _clear_board(Board *qb)
 {
 	if (qb == NULL)
@@ -19,6 +22,9 @@ int _clear_board(Board *qb)
 	return 0;
 }
 
+/*
+ * qB_new: Initialise a new board.
+ */
 Board *qB_new(Board *qb, int len)
 {
 	qb = malloc(sizeof(Board));
@@ -35,6 +41,10 @@ Board *qB_new(Board *qb, int len)
 	return qb;
 }
 
+/*
+ * _set_queen: Add a queen to the primary board and mark all squares that are
+ * coverd by the queens sight on the 3rd dimention of the same.
+ */
 int _set_queen(Board *qb, int x, int y)
 {
 	int i, j, len = qb->len;
@@ -67,6 +77,9 @@ int _set_queen(Board *qb, int x, int y)
 	return 0;
 }
 
+/*
+ * qB_validate: Is the square available?
+ */
 int qB_validate(Board *qb, int x, int y)
 {
 	int len = qb->len;
@@ -136,4 +149,13 @@ void qB_print_disponibility(Board *qb)
 	}
 	*b_pt++ = '\0';
 	printf("%s", buffer);
+}
+
+/*
+ * qB_free(Board *qb)
+ */
+void qB_free(Board *qb)
+{
+	free(qb->board);
+	free(qb);
 }
