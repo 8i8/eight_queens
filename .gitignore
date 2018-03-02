@@ -1,0 +1,6 @@
+cscope.files
+cscope.out
+*.o
+queens
+scratch.c
+a.out
