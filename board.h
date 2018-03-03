@@ -30,10 +30,10 @@ int qB_remove_queen(Board *qb, int x, int y, int validate);
 /* qB_print: Print out the board with the queens positions. */
 void qB_print(Board *qb, int num);
 
-/* qB_print_with_info: Print out the state of the board, the avaliablilty
- * of squares, this is the underlying matrix for the queens sight; For fast
- * avalibilty check a 3rd dimention has been used to store '-' in squares that
- * are covered by a queens sight. */
+/* qB_print_with_info: Print out the state of the board, the availability of
+ * squares, this is the underlying matrix for the queens sight; For fast access
+ * by checking check a 3rd dimension has been used to increment a numerical
+ * value in any squares that are covered by a queens sight. */
 void qB_print_with_info(Board *qb, int num, int queens);
 
 /* qB_store: Write board into trie data structure. */

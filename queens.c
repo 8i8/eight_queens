@@ -5,7 +5,7 @@
 #define LEN 8
 
 /*
- * _queens: Recursivly look for solutions to the queens problem.
+ * _queens: Recursively look for solutions to the queens problem.
  */
 int _queens(Board *qb, Trie **trie, int *len, int *num)
 {
@@ -25,13 +25,11 @@ int _queens(Board *qb, Trie **trie, int *len, int *num)
 					continue;
 				// choose
 				qB_place_queen(qb, i, j, 0);
-
 				// explore
 				(*len)++;
 				if (_queens(qb, trie, len, num))
 					return 1;
-
-				// un-chose
+				// un choose
 				qB_remove_queen(qb, i, j, 1);
 				(*len)--;
 			}

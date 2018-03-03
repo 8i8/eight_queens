@@ -40,8 +40,7 @@ Board *qB_new(Board *qb, int len)
 
 	qb->len = len;
 	qb->total_len = len * len * 2;
-	/* 4 bytes for Num queens and solution number, 1 byte for '\0' */
-	qb->board = malloc(qb->total_len+5);
+	qb->board = malloc(qb->total_len+1);
 
 	_clear_board(qb);
 
@@ -50,7 +49,7 @@ Board *qB_new(Board *qb, int len)
 
 /*
  * _set_queen: Add a queen to the primary board and mark all squares that are
- * coverd by the queens sight on the 3rd dimention of the same.
+ * covered by the queens sight on the 3rd dimension of the same.
  */
 int _set_queen(Board *qb, int x, int y, int quant)
 {
@@ -103,7 +102,7 @@ int qB_validate(Board *qb, int x, int y)
 
 /*
  * qB_place_queen: Add a new queen to the board after a validation of the
- * square, the validation can be overidden for the case in which a verification
+ * square, the validation can be overridden for the case in which a verification
  * has already been made.
  */
 int qB_place_queen(Board *qb, int x, int y, int validate)
@@ -155,10 +154,10 @@ void qB_print(Board *qb, int num)
 }
 
 /*
- * qB_print_with_info: Print out the state of the board, the avaliablilty
- * of squares, this is the underlying matrix for the queens sight; For fast
- * avalibilty check a 3rd dimention has been used to store '-' in squares that
- * are covered by a queens sight.
+ * qB_print_with_info: Print out the state of the board, the availability of
+ * squares, this is the underlying matrix for the queens sight; For fast access
+ * by checking check a 3rd dimension has been used to increment a numerical
+ * value in any squares that are covered by a queens sight.
  */
 void qB_print_with_info(Board *qb, int num, int queens)
 {
