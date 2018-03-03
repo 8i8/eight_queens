@@ -103,14 +103,19 @@ void _print_q_board(char *qb)
 void _print_word(Trie *word, char *out, char *pt_out)
 {
 	int i;
+	static int j;
 	pt_out += sprintf(pt_out, "%c", word->c);
 
 	if (word->next != NULL)
 		for (i = 0; i < UCHAR; i++)
 			if (word->next[i] != NULL)
 				_print_word(word->next[i], out, pt_out);
-	if (word->word_end)
+
+	if (word->word_end) {
+		++j;
+		printf("%d\n", j);
 		_print_q_board(out);
+	}
 }
 
 void _print_list(Trie **list, char *out, char *pt_out)
