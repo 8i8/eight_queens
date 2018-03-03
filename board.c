@@ -1,4 +1,5 @@
 #include "board.h"
+#include "trie.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +23,8 @@ int _clear_board(Board *qb)
 					*(board+i+(j*len)+(k*len*len)) = '.';
 				else if (k == 1)
 					*(board+i+(j*len)+(k*len*len)) = '0';
+	*(board+qb->total_len) = '\0';
+
 	return 0;
 }
 
@@ -37,7 +40,7 @@ Board *qB_new(Board *qb, int len)
 
 	qb->len = len;
 	qb->total_len = len * len * 2;
-	qb->board = malloc(2 * len * len);
+	qb->board = malloc(qb->total_len+1);
 
 	_clear_board(qb);
 
@@ -73,11 +76,11 @@ int _set_queen(Board *qb, int x, int y, int quant)
 		/* Diagonals */
 		if (i <= x && i <= y)
 			*(board + (x - i) + ((y - i) * len) + sqr) += quant;
-		if (i <= (len - x) && i <= y && i > 0)
+		if (i < (len - x) && i <= y && i > 0)
 			*(board + (x + i) + ((y - i) * len) + sqr) += quant;
-		if (i <= x && i <= (len - y) && i > 0)
+		if (i <= x && i < (len - y) && i > 0)
 			*(board + (x - i) + ((y + i) * len) + sqr) += quant;
-		if (i <= (len - x) && i <= (len - y) && i > 0)
+		if (i < (len - x) && i < (len - y) && i > 0)
 			*(board + (x + i) + ((y + i) * len) + sqr) += quant;
 	}
 
@@ -178,6 +181,13 @@ void qB_print_with_info(Board *qb, int num, int queens)
 	}
 	*b_pt++ = '\0';
 	printf("%s\n", buffer);
+}
+
+int qB_store(Board *qb, Trie **trie)
+{
+	if (tTrie_add_word(trie, qb->board))
+		return-1;
+	return 0;
 }
 
 /*

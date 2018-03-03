@@ -1,5 +1,5 @@
 EXE = queens
-SRC = queens.c board.c
+SRC = queens.c board.c trie.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 CFLAGS = -g
@@ -13,7 +13,7 @@ all: $(EXE)
 $(EXE): $(OBJ)
 	$(CC) $(CFLAG) $(OBJ) -o $(EXE)
 
-$(OBJ): board.h Makefile
+$(OBJ): board.h trie.h Makefile
 
 clean:
 	rm -f *.o

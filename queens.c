@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "board.h"
+#include "trie.h"
 
 #define LEN 8
 
@@ -9,7 +10,7 @@
  *  calulate and count all solutions, a trie is likely required to make the
  *  timing sensible.
  */
-int _queens(Board *qb, int *len, int *num)
+int _queens(Board *qb, Trie **trie, int *len, int *num)
 {
 	int i, j;
 
@@ -17,6 +18,8 @@ int _queens(Board *qb, int *len, int *num)
 		(*num)++;
 		qB_print_with_info(qb, *num, *len);
 		//qB_print(qb, *num);
+		//qB_store(qb, trie);
+		printf("%s", qb->board);
 		return 1;
 	} else {
 		for (i = 0; i < LEN; i++) {
@@ -29,7 +32,7 @@ int _queens(Board *qb, int *len, int *num)
 
 				// explore
 				(*len)++;
-				if (_queens(qb, len, num))
+				if (_queens(qb, trie, len, num))
 					return 1;
 
 				// un-chose
@@ -38,21 +41,27 @@ int _queens(Board *qb, int *len, int *num)
 			}
 		}
 	}
-
 	return 0;
 }
 
 int queens(void)
 {
-	int num = 0, len = 0;
 	Board *qb = NULL;
+	Trie **trie = NULL;
+	trie = tTrie_init(trie);
+	int num, len;
+	num = len = 0;
 	qb = qB_new(qb, LEN);
-	_queens(qb, &len, &num);
+	_queens(qb, trie, &len, &num);
+
+	//tTrie_print(trie);
 
 	//qB_place_queen(qb, 3, 3, 0);
 	//qB_print_with_info(qb, num);
 
 	qB_free(qb);
+	tTrie_free(trie);
+
 	return 0;
 }
 
