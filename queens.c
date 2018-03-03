@@ -13,10 +13,7 @@ int _queens(Board *qb, Trie **trie, int *len, int *num)
 
 	if (*len == LEN) {
 		(*num)++;
-		//qB_print_with_info(qb, *num, *len);
-		//qB_print(qb, *num);
 		qB_store(qb, trie);
-		return 1;
 	} else {
 		for (i = 0; i < LEN; i++) {
 			for (j = 0; j < LEN; j++) {
@@ -27,8 +24,7 @@ int _queens(Board *qb, Trie **trie, int *len, int *num)
 				qB_place_queen(qb, i, j, 0);
 				// explore
 				(*len)++;
-				if (_queens(qb, trie, len, num))
-					return 1;
+				_queens(qb, trie, len, num);
 				// un choose
 				qB_remove_queen(qb, i, j, 1);
 				(*len)--;

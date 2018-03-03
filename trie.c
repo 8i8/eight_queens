@@ -75,6 +75,31 @@ Trie **tTrie_init(Trie **list)
  *  Print
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+void _print_q_board(char *qb)
+{
+	int i, j, sqr, len = 8;
+	char *b_pt, buffer[(len * len * 2 + len) * 2 + 1];
+	char *board;
+	board = qb;
+	b_pt = buffer;
+	sqr = len * len;
+
+	for (i = 0; i < len; i++) {
+		for (j = 0; j < len; j++) {
+			snprintf(b_pt, 3, "%c ", *(board+i*len+j));
+			b_pt += 2;
+		}
+		*b_pt++ = ' ';
+		for (j = 0; j < len; j++) {
+			snprintf(b_pt, 3, "%c ", *(board+i*len+sqr+j));
+			b_pt += 2;
+		}
+		*(b_pt-1) = '\n';
+	}
+	*b_pt++ = '\0';
+	printf("%s\n", buffer);
+}
+
 void _print_word(Trie *word, char *out, char *pt_out)
 {
 	int i;
@@ -85,7 +110,7 @@ void _print_word(Trie *word, char *out, char *pt_out)
 			if (word->next[i] != NULL)
 				_print_word(word->next[i], out, pt_out);
 	if (word->word_end)
-		printf("%s\n", out);
+		_print_q_board(out);
 }
 
 void _print_list(Trie **list, char *out, char *pt_out)
