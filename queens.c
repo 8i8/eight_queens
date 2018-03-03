@@ -6,9 +6,6 @@
 
 /*
  * _queens: Recursivly look for solutions to the queens problem.
- *  TODO this function currently stops at the first solution, find a way to
- *  calulate and count all solutions, a trie is likely required to make the
- *  timing sensible.
  */
 int _queens(Board *qb, Trie **trie, int *len, int *num)
 {
