@@ -40,7 +40,8 @@ Board *qB_new(Board *qb, int len)
 
 	qb->len = len;
 	qb->total_len = len * len * 2;
-	qb->board = malloc(qb->total_len+1);
+	/* 4 bytes for Num queens and solution number, 1 byte for '\0' */
+	qb->board = malloc(qb->total_len+5);
 
 	_clear_board(qb);
 
@@ -116,6 +117,9 @@ int qB_place_queen(Board *qb, int x, int y, int validate)
 	return 0;
 }
 
+/*
+ * qB_remove_queen: Remove queen after solution attempt.
+ */
 int qB_remove_queen(Board *qb, int x, int y, int validate)
 {
 	if (validate && *(qb->board+x+(y * qb->len)) != 'Q')
@@ -152,7 +156,7 @@ void qB_print(Board *qb, int num)
 
 /*
  * qB_print_with_info: Print out the state of the board, the avaliablilty
- * of squares, this is the underlying matrig of the queens sight; For fast
+ * of squares, this is the underlying matrix for the queens sight; For fast
  * avalibilty check a 3rd dimention has been used to store '-' in squares that
  * are covered by a queens sight.
  */
@@ -183,6 +187,9 @@ void qB_print_with_info(Board *qb, int num, int queens)
 	printf("%s\n", buffer);
 }
 
+/*
+ * qB_store: Write board into trie data structure.
+ */
 int qB_store(Board *qb, Trie **trie)
 {
 	if (tTrie_add_word(trie, qb->board))

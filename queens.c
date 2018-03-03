@@ -16,10 +16,9 @@ int _queens(Board *qb, Trie **trie, int *len, int *num)
 
 	if (*len == LEN) {
 		(*num)++;
-		qB_print_with_info(qb, *num, *len);
+		//qB_print_with_info(qb, *num, *len);
 		//qB_print(qb, *num);
-		//qB_store(qb, trie);
-		printf("%s", qb->board);
+		qB_store(qb, trie);
 		return 1;
 	} else {
 		for (i = 0; i < LEN; i++) {
@@ -54,7 +53,7 @@ int queens(void)
 	qb = qB_new(qb, LEN);
 	_queens(qb, trie, &len, &num);
 
-	//tTrie_print(trie);
+	tTrie_print(trie);
 
 	//qB_place_queen(qb, 3, 3, 0);
 	//qB_print_with_info(qb, num);
