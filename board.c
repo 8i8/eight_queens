@@ -18,7 +18,10 @@ int _clear_board(Board *qb)
 	for (i = 0; i < len; i++)
 		for (j = 0; j < len; j++)
 			for(k = 0; k < 2; k++)
-				*(board+i+(j*len)+(k*len*len)) = '+';
+				if (k == 0)
+					*(board+i+(j*len)+(k*len*len)) = '.';
+				else if (k == 1)
+					*(board+i+(j*len)+(k*len*len)) = '0';
 	return 0;
 }
 
@@ -45,33 +48,38 @@ Board *qB_new(Board *qb, int len)
  * _set_queen: Add a queen to the primary board and mark all squares that are
  * coverd by the queens sight on the 3rd dimention of the same.
  */
-int _set_queen(Board *qb, int x, int y)
+int _set_queen(Board *qb, int x, int y, int quant)
 {
 	int i, j, len = qb->len;
 	char *board;
 	board = qb->board;
 
-	*(board+x+(y*len)) = 'Q';
+	if (quant == 1)
+		*(board+x+(y*len)) = 'Q';
+	else
+		*(board+x+(y*len)) = '.';
 
 	for (i = 0; i < len; i++) {
 
 		/* Rows and columns */
 		if (i == y)
 			for (j = 0; j < len; j++)
-				*(board+j+(i*len)+(len * len)) = '-';
+				if (j != i)
+					*(board+j+(i*len)+(len * len)) += quant;
 		if (i == x)
 			for (j = 0; j < len; j++)
-				*(board+i+(j*len)+(len * len)) = '-';
+				if (j != i)
+					*(board+i+(j*len)+(len * len)) += quant;
 
 		/* Diagonals */
 		if (i <= x && i <= y)
-			*(board + (x - i) + ((y - i) * len) + (len * len)) = '-';
-		if (i <= (len - x) && i <= y)
-			*(board + (x + i) + ((y - i) * len) + (len * len)) = '-';
-		if (i < x && i < (len - y))
-			*(board + (x - i) + ((y + i) * len) + (len * len)) = '-';
-		if (i < (len - x) && i < (len - y))
-			*(board + (x + i) + ((y + i) * len) + (len * len)) = '-';
+			*(board + (x - i) + ((y - i) * len) + (len * len)) += quant;
+		if (i <= (len - x) && i <= y && i > 0)
+			*(board + (x + i) + ((y - i) * len) + (len * len)) += quant;
+		if (i <= x && i <= (len - y) && i > 0)
+			*(board + (x - i) + ((y + i) * len) + (len * len)) += quant;
+		if (i <= (len - x) && i <= (len - y) && i > 0)
+			*(board + (x + i) + ((y + i) * len) + (len * len)) += quant;
 	}
 
 	return 0;
@@ -84,7 +92,7 @@ int qB_validate(Board *qb, int x, int y)
 {
 	int len = qb->len;
 
-	if (*(qb->board+x+(y * len)+(len * len)) == '-')
+	if (*(qb->board+x+(y * len)+(len * len)) > '0')
 		return -1;
 
 	return 0;
@@ -100,55 +108,77 @@ int qB_place_queen(Board *qb, int x, int y, int validate)
 	if (validate && qB_validate(qb, x, y))
 		return -1;
 
-	if (_set_queen(qb, x, y))
+	if (_set_queen(qb, x, y, 1))
 		return -1;
 
+	return 0;
+}
+
+int qB_remove_queen(Board *qb, int x, int y, int validate)
+{
+	if (validate && *(qb->board+x+(y * qb->len)) != 'Q')
+		return -1;
+
+	if (_set_queen(qb, x, y, -1))
+		return -1;
 	return 0;
 }
 
 /*
  * qB_print: Print out the board with the queens positions.
  */
-void qB_print(Board *qb)
+void qB_print(Board *qb, int num)
 {
-	int i, len = qb->len;
-	char *b_pt, buffer[len * len + len + 1];
+	int i, sqr, len = qb->len;
+	char *b_pt, buffer[len * len * 2 + len + 1];
 	char *board;
 	board = qb->board;
 	b_pt = buffer;
+	sqr = len * len;
 
-	for (i = 0; i < len; i++) {
-		memcpy(b_pt, board+(i*len), len);
-		b_pt += len;
-		*b_pt++ = '\n';
-		*b_pt = '\0';
+	printf("%d\n", num);
+
+	for (i = 0; i < sqr; i++) {
+		snprintf(b_pt, 3, "%c ", *(board+i));
+		b_pt += 2;
+		if (!((i+1)%len))
+			*b_pt++ = '\n';
 	}
 	*b_pt++ = '\0';
-	printf("%s", buffer);
+	printf("%s\n", buffer);
 }
 
 /*
- * qB_print_disponibility: Print out the state of the board, the avaliablilty
+ * qB_print_with_info: Print out the state of the board, the avaliablilty
  * of squares, this is the underlying matrig of the queens sight; For fast
  * avalibilty check a 3rd dimention has been used to store '-' in squares that
  * are covered by a queens sight.
  */
-void qB_print_disponibility(Board *qb)
+void qB_print_with_info(Board *qb, int num)
 {
-	int i, len = qb->len;
-	char *b_pt, buffer[len * len + len + 1];
+	int i, j, sqr, len = qb->len;
+	char *b_pt, buffer[(len * len * 2 + len) * 2 + 1];
 	char *board;
 	board = qb->board;
 	b_pt = buffer;
+	sqr = len * len;
+
+	printf("%d\n", num);
 
 	for (i = 0; i < len; i++) {
-		memcpy(b_pt, board+(i*len)+(len*len), len);
-		b_pt += len;
-		*b_pt++ = '\n';
-		*b_pt = '\0';
+		for (j = 0; j < len; j++) {
+			snprintf(b_pt, 3, "%c ", *(board+i*len+j));
+			b_pt += 2;
+		}
+		*b_pt++ = ' ';
+		for (j = 0; j < len; j++) {
+			snprintf(b_pt, 3, "%c ", *(board+i*len+sqr+j));
+			b_pt += 2;
+		}
+		*(b_pt-1) = '\n';
 	}
 	*b_pt++ = '\0';
-	printf("%s", buffer);
+	printf("%s\n", buffer);
 }
 
 /*
