@@ -50,36 +50,35 @@ Board *qB_new(Board *qb, int len)
  */
 int _set_queen(Board *qb, int x, int y, int quant)
 {
-	int i, j, len = qb->len;
+	int i, sqr, len = qb->len;
 	char *board;
 	board = qb->board;
+	sqr = len * len;
 
 	if (quant == 1)
 		*(board+x+(y*len)) = 'Q';
 	else
 		*(board+x+(y*len)) = '.';
 
-	for (i = 0; i < len; i++) {
 
-		/* Rows and columns */
-		if (i == y)
-			for (j = 0; j < len; j++)
-				if (j != i)
-					*(board+j+(i*len)+(len * len)) += quant;
-		if (i == x)
-			for (j = 0; j < len; j++)
-				if (j != i)
-					*(board+i+(j*len)+(len * len)) += quant;
+	/* Rows and columns */
+	for (i = 0; i < len; i++) {
+			*(board+i+(y*len)+sqr) += quant;
+			*(board+x+(i*len)+sqr) += quant;
+	}
+	*(board+x+(y*len)+sqr) -= 2 * quant;
+
+	for (i = 0; i < len; i++) {
 
 		/* Diagonals */
 		if (i <= x && i <= y)
-			*(board + (x - i) + ((y - i) * len) + (len * len)) += quant;
+			*(board + (x - i) + ((y - i) * len) + sqr) += quant;
 		if (i <= (len - x) && i <= y && i > 0)
-			*(board + (x + i) + ((y - i) * len) + (len * len)) += quant;
+			*(board + (x + i) + ((y - i) * len) + sqr) += quant;
 		if (i <= x && i <= (len - y) && i > 0)
-			*(board + (x - i) + ((y + i) * len) + (len * len)) += quant;
+			*(board + (x - i) + ((y + i) * len) + sqr) += quant;
 		if (i <= (len - x) && i <= (len - y) && i > 0)
-			*(board + (x + i) + ((y + i) * len) + (len * len)) += quant;
+			*(board + (x + i) + ((y + i) * len) + sqr) += quant;
 	}
 
 	return 0;
@@ -154,7 +153,7 @@ void qB_print(Board *qb, int num)
  * avalibilty check a 3rd dimention has been used to store '-' in squares that
  * are covered by a queens sight.
  */
-void qB_print_with_info(Board *qb, int num)
+void qB_print_with_info(Board *qb, int num, int queens)
 {
 	int i, j, sqr, len = qb->len;
 	char *b_pt, buffer[(len * len * 2 + len) * 2 + 1];
@@ -163,7 +162,7 @@ void qB_print_with_info(Board *qb, int num)
 	b_pt = buffer;
 	sqr = len * len;
 
-	printf("%d\n", num);
+	printf("n: %d queens: %d\n", num, queens);
 
 	for (i = 0; i < len; i++) {
 		for (j = 0; j < len; j++) {
