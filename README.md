@@ -17,8 +17,8 @@ required between the data calculation and data storage.
 * Make use of this access to the trie when iterating through the problems
 solutions; The data recorded could be stored in its rotational and reflectional
 symmetries as each solution is tested. If this data is effectively stored in a
-graph, it should be possible to eliminate many of the dead end paths as the
-algorithm progresses, reducing the calculation time significantly.
+sensible way, it should be possible to eliminate many of the dead end paths
+before they are taken, reducing the calculation time significantly.
 
 ```
 	1
