@@ -20,6 +20,7 @@ symmetries as each solution is tested. If this data is effectively stored in a
 graph, it should be possible to eliminate many of the dead end paths as the
 algorithm progresses, reducing the calculation time significantly.
 
+```
 	1
 	. . . . . . . . Q
 	. . . . . . Q . .
@@ -3891,4 +3892,4 @@ algorithm progresses, reducing the calculation time significantly.
 	. . . . . . . . Q
 	. . . . . . Q . .
 	. . . . Q . . . .
-
+```
