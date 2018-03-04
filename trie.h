@@ -24,7 +24,10 @@ typedef struct Trie {
 Trie **tTrie_init(Trie **listing);
 
 /* Add a new word to the trie */
-Trie **tTrie_add_word(Trie **list, char* str);
+Trie **tTrie_add_word(Trie **list, char *string);
+
+/* Add a n char of a string to the trie */
+Trie **tTrie_add_n_char(Trie **list, int len, char *string);
 
 /* Print trie list to terminal */
 void tTrie_print(Trie **list);

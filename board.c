@@ -188,13 +188,50 @@ void qB_print_with_info(Board *qb, int num, int queens)
 }
 
 /*
- * qB_store: Write board into trie data structure.
+ * qB_print_board: Print in board format from a char* string, used by trie.c
+ * for output.
  */
-int qB_store(Board *qb, Trie **trie)
+void qB_print_board(char *board)
 {
-	if (tTrie_add_word(trie, qb->board))
-		return-1;
-	return 0;
+	int i, j, len = LEN;
+	char *b_pt, buffer[(len * len * 2 + len) + 1];
+	b_pt = buffer;
+
+	for (i = 0; i < len; i++) {
+		for (j = 0; j < len; j++) {
+			snprintf(b_pt, 3, "%c ", *(board+i*len+j));
+			b_pt += 2;
+		}
+		*(b_pt-1) = '\n';
+	}
+	*b_pt++ = '\0';
+	printf("%s\n", buffer);
+}
+/*
+ * qB_print_board_with_info: Print in board format from a char* string, used by trie.c
+ * for output.
+ */
+void qB_print_board_with_info(char *board)
+{
+	int i, j, sqr, len = LEN;
+	char *b_pt, buffer[(len * len * 2 + len) * 2 + 1];
+	b_pt = buffer;
+	sqr = len * len;
+
+	for (i = 0; i < len; i++) {
+		for (j = 0; j < len; j++) {
+			snprintf(b_pt, 3, "%c ", *(board+i*len+j));
+			b_pt += 2;
+		}
+		*b_pt++ = ' ';
+		for (j = 0; j < len; j++) {
+			snprintf(b_pt, 3, "%c ", *(board+i*len+sqr+j));
+			b_pt += 2;
+		}
+		*(b_pt-1) = '\n';
+	}
+	*b_pt++ = '\0';
+	printf("%s\n", buffer);
 }
 
 /*

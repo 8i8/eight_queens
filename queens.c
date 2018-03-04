@@ -2,8 +2,6 @@
 #include "board.h"
 #include "trie.h"
 
-#define LEN 8
-
 /*
  * _queens: Recursively look for solutions to the queens problem.
  */
@@ -13,11 +11,11 @@ int _queens(Board *qb, Trie **trie, int *len, int *num)
 
 	if (*len == LEN) {
 		(*num)++;
-		qB_store(qb, trie);
+		tTrie_add_n_char(trie, LEN*LEN, qb->board);
 	} else {
-		for (i = 0; i < LEN; i++) {
-			for (j = 0; j < LEN; j++) {
-
+		for (j = 0; j < LEN; j++) {
+			for (i = 0; i < LEN; i++)
+			{
 				if (qB_validate(qb, i, j))
 					continue;
 				// choose
