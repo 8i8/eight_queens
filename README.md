@@ -6,7 +6,7 @@ use of the trie here but see that there is still much room for much improvement.
 #### Things to do ...
 
 Interesting observations on running these solutions; it seems pretty clear that
-the use of a graph data structure could improve on the efficiency of the bruit
+the use of a further data structure could improve on the efficiency of the brute
 force method; The symmetry's of each solution, and more importantly each
 failed path, could be marked in such a way as to make solving the problem a
 little faster; I will come back to this as a work in progress as my coding
