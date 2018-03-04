@@ -1,6 +1,3 @@
-
-#define LEN 9
-
 #ifndef _board_h
 #define _board_h
 typedef struct Board {
@@ -27,15 +24,17 @@ int qB_remove_queen(Board *qb, int x, int y, int validate);
 /* qB_print: Print out the board with the queens positions. */
 void qB_print(Board *qb, int num);
 
-/* qB_print_with_info: Print out the state of the board, the availability of
- * squares, this is the underlying matrix for the queens sight; For fast access
- * by checking check a 3rd dimension has been used to increment a numerical
- * value in any squares that are covered by a queens sight. */
-void qB_print_with_info(Board *qb, int num, int queens);
+/* qB_print_board: Print in board format from a Board internal string, used by
+ * trie.c for output; Takes a string and the length of one side of the square
+ * board. */
+void qB_print_board(void *b, void* l, int index);
 
-/* qB_print_board: Print in board format from a char* string, used by trie.c
- * for output. */
-void qB_print_board(char *board);
+/* qB_print_board_with_info: Print in board format from a Board internal
+ * string, the availability of squares, this is the underlying matrix for the
+ * queens sight; For fast access by checking check a 3rd dimension used to
+ * increment a numerical value in any squares that are covered by a queens
+ * sight. */
+void qB_print_board_with_info(Board *qb);
 
 /* qB_free(Board *qb) */
 void qB_free(Board *qb);

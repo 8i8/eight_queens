@@ -2,6 +2,8 @@
 #include "board.h"
 #include "trie.h"
 
+#define LEN 5
+
 /*
  * _queens: Recursively look for solutions to the queens problem.
  */
@@ -37,15 +39,13 @@ int queens(void)
 	Board *qb = NULL;
 	Trie **trie = NULL;
 	trie = tTrie_init(trie);
-	int num, len;
+	int num, len, length;
 	num = len = 0;
-	qb = qB_new(qb, LEN);
+	length = LEN;
+	qb = qB_new(qb, length);
 	_queens(qb, trie, &len, &num);
 
-	tTrie_print(trie);
-
-	//qB_place_queen(qb, 3, 3, 0);
-	//qB_print_with_info(qb, num);
+	tTrie_output(trie, qB_print_board, (void*)&length);
 
 	qB_free(qb);
 	tTrie_free(trie);

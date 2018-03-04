@@ -155,45 +155,17 @@ void qB_print(Board *qb, int num)
 }
 
 /*
- * qB_print_with_info: Print out the state of the board, the availability of
- * squares, this is the underlying matrix for the queens sight; For fast access
- * by checking check a 3rd dimension has been used to increment a numerical
- * value in any squares that are covered by a queens sight.
+ * qB_print_board: Print in board format from a Board internal string, used by
+ * trie.c for output; Takes a string and the length of one side of the square
+ * board.
  */
-void qB_print_with_info(Board *qb, int num, int queens)
+void qB_print_board(void *b, void* l, int index)
 {
-	int i, j, sqr, len = qb->len;
-	char *b_pt, buffer[(len * len * 2 + len) * 2 + 1];
 	char *board;
-	board = qb->board;
-	b_pt = buffer;
-	sqr = len * len;
-
-	printf("n: %d queens: %d\n", num, queens);
-
-	for (i = 0; i < len; i++) {
-		for (j = 0; j < len; j++) {
-			snprintf(b_pt, 3, "%c ", *(board+i*len+j));
-			b_pt += 2;
-		}
-		*b_pt++ = ' ';
-		for (j = 0; j < len; j++) {
-			snprintf(b_pt, 3, "%c ", *(board+i*len+sqr+j));
-			b_pt += 2;
-		}
-		*(b_pt-1) = '\n';
-	}
-	*b_pt++ = '\0';
-	printf("%s\n", buffer);
-}
-
-/*
- * qB_print_board: Print in board format from a char* string, used by trie.c
- * for output.
- */
-void qB_print_board(char *board)
-{
-	int i, j, len = LEN;
+	int *l_pt;
+	board = (char*)b;
+	l_pt = (int*)l;
+	int i, j, len = *l_pt;
 	char *b_pt, buffer[(len * len * 2 + len) + 1];
 	b_pt = buffer;
 
@@ -205,27 +177,29 @@ void qB_print_board(char *board)
 		*(b_pt-1) = '\n';
 	}
 	*b_pt++ = '\0';
-	printf("%s\n", buffer);
+	printf("%d\n%s\n", index, buffer);
 }
+
 /*
- * qB_print_board_with_info: Print in board format from a char* string, used by trie.c
- * for output.
+ * qB_print_board_with_info: Print in board format from a Board internal
+ * string, used by trie.c for output; Takes a string and the length of one side
+ * of the square board.
  */
-void qB_print_board_with_info(char *board)
+void qB_print_board_with_info(Board *qb)
 {
-	int i, j, sqr, len = LEN;
+	int i, j, sqr, len = qb->len;
 	char *b_pt, buffer[(len * len * 2 + len) * 2 + 1];
 	b_pt = buffer;
 	sqr = len * len;
 
 	for (i = 0; i < len; i++) {
 		for (j = 0; j < len; j++) {
-			snprintf(b_pt, 3, "%c ", *(board+i*len+j));
+			snprintf(b_pt, 3, "%c ", *(qb->board+i*len+j));
 			b_pt += 2;
 		}
 		*b_pt++ = ' ';
 		for (j = 0; j < len; j++) {
-			snprintf(b_pt, 3, "%c ", *(board+i*len+sqr+j));
+			snprintf(b_pt, 3, "%c ", *(qb->board+i*len+sqr+j));
 			b_pt += 2;
 		}
 		*(b_pt-1) = '\n';

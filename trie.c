@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "trie.h"
 #include "board.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define UCHAR 127 /* Length of character index for c_list */
 
@@ -90,41 +90,39 @@ Trie **tTrie_init(Trie **list)
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  Print
+ *  Output
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-void _print_word(Trie *word, char *out, char *pt_out)
+void _output_word(Trie *word, char *out, char *pt_out, void (*func)(void*, void*, int), void *var)
 {
 	int i;
-	static int j;
+	static int count;
 	pt_out += sprintf(pt_out, "%c", word->c);
 
 	if (word->next != NULL)
 		for (i = 0; i < UCHAR; i++)
 			if (word->next[i] != NULL)
-				_print_word(word->next[i], out, pt_out);
+				_output_word(word->next[i], out, pt_out, func, var);
 
-	if (word->word_end) {
-		++j;
-		printf("%d\n", j);
-		qB_print_board(out);
-	}
+	if (word->word_end)
+		(*func)((void*)out, var, ++count);
 }
 
-void _print_list(Trie **list, char *out, char *pt_out)
+void _output_list(Trie **list, char *out, char *pt_out, void (*func)(void*, void*, int), void *var)
 {
 	int i;
 	for (i = 0; i < UCHAR; i++)
 		if (list[i] != NULL)
-			_print_word(list[i], out, pt_out);
+			_output_word(list[i], out, pt_out, func, var);
 }
 
-void tTrie_print(Trie **list)
+/* Output trie via given function */
+void tTrie_output(Trie **list, void (*func)(void*, void*, int), void *var)
 {
 	char *pt, out[UCHAR] = {'\0'};
 	pt = out;
 
-	_print_list(list, pt, pt);
+	_output_list(list, pt, pt, func, var);
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
