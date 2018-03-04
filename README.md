@@ -1,11 +1,24 @@
 ### Eight queens, I thought you said nine!
 
+Here is my solution to the famous eight queens problem, I am happy to have made
+use of the trie here but see that there is still much room for much improvement.
+
+#### Things to do ...
+
 Interesting observations on running these solutions; it seems pretty clear that
 the use of a graph data structure could improve on the efficiency of the bruit
-force algorithm; The symmetry's of each solution, and more importantly each
+force method; The symmetry's of each solution, and more importantly each
 failed path, could be marked in such a way as to make solving the problem a
 little faster; I will come back to this as a work in progress as my coding
 improves.
+
+* Add a remote functionality to the trie so that no intermediate memory is
+required between the data calculation and data storage.
+* Make use of this access to the trie when iterating through the problems
+solutions; The data recorded could be stored in its rotational and reflectional
+symmetries as each solution is tested. If this data is effectively stored in a
+graph, it should be possible to eliminate many of the dead end paths as the
+algorithm progresses, reducing the calculation time significantly.
 
 	1
 	. . . . . . . . Q
