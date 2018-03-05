@@ -2,7 +2,7 @@
 #include "board.h"
 #include "trie.h"
 
-#define LEN 5
+#define LEN 7
 
 /*
  * _queens: Recursively look for solutions to the queens problem.

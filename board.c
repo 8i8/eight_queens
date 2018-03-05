@@ -64,17 +64,14 @@ int _set_queen(Board *qb, int x, int y, int quant)
 	else
 		*(board+x+(y*len)) = '.';
 
-
-	/* Rows and columns, 3rd dimention for the queens 'regard' */
-	for (i = 0; i < len; i++) {
-			*(board+i+(y*len)+sqr) += quant;
-			*(board+x+(i*len)+sqr) += quant;
-	}
-	*(board+x+(y*len)+sqr) -= 2 * quant;
-
+	/* 3rd dimention for the queens 'regard' */
 	for (i = 0; i < len; i++) {
 
-		/* Diagonals, she may be watching you */
+		/* Rows and columns, */
+		*(board+i+(y*len)+sqr) += quant;
+		*(board+x+(i*len)+sqr) += quant;
+
+		/* Diagonals */
 		if (i <= x && i <= y)
 			*(board + (x - i) + ((y - i) * len) + sqr) += quant;
 		if (i < (len - x) && i <= y && i > 0)
@@ -84,6 +81,7 @@ int _set_queen(Board *qb, int x, int y, int quant)
 		if (i < (len - x) && i < (len - y) && i > 0)
 			*(board + (x + i) + ((y + i) * len) + sqr) += quant;
 	}
+	*(board+x+(y*len)+sqr) -= 2 * quant;
 
 	return 0;
 }

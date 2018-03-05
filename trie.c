@@ -12,6 +12,8 @@
 Trie *_new_c_node(char c)
 {
 	Trie *new_node = malloc(sizeof(Trie));
+	if ((new_node) == NULL)
+		return NULL;
 	new_node->c = c;
 	new_node->next = NULL;
 	new_node->word_end = 0;
@@ -22,7 +24,8 @@ Trie *_new_c_node(char c)
 Trie **_new_c_list(Trie **list)
 {
 	int i;
-	list = malloc(UCHAR * sizeof(Trie*));
+	if ((list = malloc(UCHAR * sizeof(Trie*))) == NULL)
+		return NULL;
 
 	for (i = 0; i < UCHAR; i++)
 		list[i] = NULL;
@@ -41,7 +44,6 @@ Trie *_add_word(Trie *word, char *str)
 		if (c_node->next == NULL)
 			if ((c_node->next = _new_c_list(c_node->next)) == NULL)
 				return NULL;
-
 		/* Next node */
 		if (c_node->next[(int)*str] == NULL)
 			if ((c_node->next[(int)*str] = _new_c_node(*str)) == NULL)
