@@ -5,9 +5,9 @@
 #include <string.h>
 
 /*
- * _clear_board: set all squares to the came value.
+ * clear_board: set all squares to the came value.
  */
-int _clear_board(Board *qb)
+int clear_board(Board *qb)
 {
 	if (qb == NULL)
 		return -1;
@@ -42,16 +42,16 @@ Board *qB_new(Board *qb, int len)
 	qb->total_len = len * len * 2;
 	qb->board = malloc(qb->total_len+1);
 
-	_clear_board(qb);
+	clear_board(qb);
 
 	return qb;
 }
 
 /*
- * _set_queen: Add a queen to the primary board and mark all squares that are
+ * set_queen: Add a queen to the primary board and mark all squares that are
  * covered by the queens sight on the 3rd dimension of the same.
  */
-int _set_queen(Board *qb, int x, int y, int quant)
+int set_queen(Board *qb, int x, int y, int quant)
 {
 	int i, sqr, len = qb->len;
 	char *board;
@@ -109,7 +109,7 @@ int qB_place_queen(Board *qb, int x, int y, int validate)
 	if (validate && qB_validate(qb, x, y))
 		return -1;
 
-	if (_set_queen(qb, x, y, 1))
+	if (set_queen(qb, x, y, 1))
 		return -1;
 
 	return 0;
@@ -123,7 +123,7 @@ int qB_remove_queen(Board *qb, int x, int y, int validate)
 	if (validate && *(qb->board+x+(y * qb->len)) != 'Q')
 		return -1;
 
-	if (_set_queen(qb, x, y, -1))
+	if (set_queen(qb, x, y, -1))
 		return -1;
 	return 0;
 }

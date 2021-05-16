@@ -1,5 +1,5 @@
-#ifndef _board_h
-#define _board_h
+#ifndef board_h
+#define board_h
 typedef struct Board {
 	char *board;
 	int total_len;

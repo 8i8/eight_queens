@@ -11,8 +11,8 @@
 
  ============================================================================
  */
-#ifndef _trie_h
-#define _trie_h
+#ifndef trie_h
+#define trie_h
 typedef struct Trie {
 	int c;
 	struct Trie **next;

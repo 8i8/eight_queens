@@ -5,9 +5,9 @@
 #define LEN 7
 
 /*
- * _queens: Recursively look for solutions to the queens problem.
+ * queens: Recursively look for solutions to the queens problem.
  */
-int _queens(Board *qb, Trie **trie, int *len, int *num)
+int r_queens(Board *qb, Trie **trie, int *len, int *num)
 {
 	int i, j;
 
@@ -24,7 +24,7 @@ int _queens(Board *qb, Trie **trie, int *len, int *num)
 				qB_place_queen(qb, i, j, 0);
 				// explore
 				(*len)++;
-				_queens(qb, trie, len, num);
+				r_queens(qb, trie, len, num);
 				// un choose
 				qB_remove_queen(qb, i, j, 1);
 				(*len)--;
@@ -43,7 +43,7 @@ int queens(void)
 	num = len = 0;
 	length = LEN;
 	qb = qB_new(qb, length);
-	_queens(qb, trie, &len, &num);
+	r_queens(qb, trie, &len, &num);
 
 	tTrie_output(trie, qB_print_board, (void*)&length);
 
